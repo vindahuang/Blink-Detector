@@ -2,7 +2,7 @@ import cv2
 import dlib
 import tensorflow as tf
 import numpy as np
-from keras.models import load_model
+# from keras.models import load_model
 from scipy.spatial import distance as dist
 from imutils import face_utils
 from flask import Flask, jsonify, request
