@@ -2,12 +2,17 @@ import cv2
 import dlib
 import tensorflow as tf
 import numpy as np
+import os
 # from keras.models import load_model
 from scipy.spatial import distance as dist
 from imutils import face_utils
 from flask import Flask, jsonify, request
+import imageio
+
+UPLOAD_FOLDER = 'path(?)'
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_alt.xml')
@@ -89,48 +94,58 @@ def cnnPreprocess(img):
 	img = np.expand_dims(img, axis=0)
 	return img
 
-@app.route('/')
+@app.route('/', methods=['POST'])
 def jalan() :
-	camera = cv2.VideoCapture(0)
+	print("Filename: ", request.files["video"].filename)
+	video = request.files["video"]
+	video.save(video.filename)
+	camera = cv2.VideoCapture(video.filename)
+	# camera = imageio.get_reader(video.filename)
+	print("Camera: ", camera)
 	model = tf.keras.models.load_model('blinkModel.hdf5')
 	graph = tf.get_default_graph()
 	close_counter = blinks = mem_counter= 0
 	state = ''
-	while True:
-		
+	while (camera.isOpened()):
+	# for frame in camera :
 		ret, frame = camera.read()
-		
+		if frame is None:
+			break
 		eyes = cropEyes(frame)
 		if eyes is None:
 			continue
 		else:
 			left_eye,right_eye = eyes
-		
+			
 		prediction = (model.predict(cnnPreprocess(left_eye)) + model.predict(cnnPreprocess(right_eye)))/2.0
 		
-		if prediction > 0.5 :
+		print(prediction)
+
+		if prediction >= 0.4 :
 			state = 'open'
 			close_counter = 0
 		else:
 			state = 'close'
 			close_counter += 1
-		
+			
 		if state == 'open' and mem_counter > 1:
 			blinks += 1
 		mem_counter = close_counter 
-
+			
 		cv2.putText(frame, "Blinks: {}".format(blinks), (10, 30),
-			cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+		cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 		cv2.putText(frame, "State: {}".format(state), (300, 30),
-			cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-		
+		cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+				
+					
 		cv2.imshow('blinks', frame)
 
+		cv2.waitKey(0)
 		if  blinks > 0 :
 			break
-
-	return "SELESAI"
-
-# jalan()
+			# os.remove(os.path.join(os.getcwd(), video.filename))
+	return str(blinks)
+				
+				# jalan()
 if(__name__) == "__main__":
-	app.run()
+	app.run(debug=True)
