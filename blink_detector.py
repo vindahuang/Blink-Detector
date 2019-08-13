@@ -13,6 +13,7 @@ UPLOAD_FOLDER = 'path(?)'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
 
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_alt.xml')
