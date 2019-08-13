@@ -132,19 +132,21 @@ def jalan() :
 			blinks += 1
 		mem_counter = close_counter 
 			
-		cv2.putText(frame, "Blinks: {}".format(blinks), (10, 30),
-		cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-		cv2.putText(frame, "State: {}".format(state), (300, 30),
-		cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+		# cv2.putText(frame, "Blinks: {}".format(blinks), (10, 30),
+		# cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+		# cv2.putText(frame, "State: {}".format(state), (300, 30),
+		# cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 				
 					
-		cv2.imshow('blinks', frame)
+		# cv2.imshow('blinks', frame)
 
-		cv2.waitKey(0)
+		# cv2.waitKey(0)
 		if  blinks > 0 :
 			break
-			# os.remove(os.path.join(os.getcwd(), video.filename))
-	return str(blinks)
+	camera.release()
+	# print(os.path.join(os.getcwd(), video.filename))
+	os.remove(os.path.join(os.getcwd(), video.filename))
+	return 'success'
 				
 				# jalan()
 if(__name__) == "__main__":
