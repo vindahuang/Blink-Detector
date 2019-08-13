@@ -1,1 +1,1 @@
-﻿web : python blink_detector.py
+﻿web : gunicorn app:app
