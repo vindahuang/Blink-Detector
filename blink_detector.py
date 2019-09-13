@@ -99,7 +99,10 @@ def cnnPreprocess(img):
 @app.route('/', methods=['POST'])
 def jalan() :
 	print("Filename: ", request.files["image"].filename)
-	image = request.files["image"]
+	try:
+		image = request.files["image"]
+	except:
+		return "error"
 	image.save(image.filename)
 	im = imageio.imread('imageio:' + image.filename)
 	print(im.shape)
