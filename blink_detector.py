@@ -102,7 +102,7 @@ def jalan() :
 	image = request.files["image"]
 	image.save(image.filename)
 	img = cv2.imread(image.filename)
-	cv2.imshow('gambar',img)
+	cv2.imshow('gambar',image)
 	cv2.waitKey(0)
 	os.remove(os.path.join(os.getcwd(), image.filename))
 	# video = request.files["video"]
