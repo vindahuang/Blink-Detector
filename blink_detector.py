@@ -104,7 +104,7 @@ def jalan() :
 	except:
 		return "error"
 	image.save(image.filename)
-	im = imageio.imread('imageio:' + image.filename)
+	im = imageio.imread('imageio:' + image)
 	print(im.shape)
 	# img = cv2.imread(image.filename)
 	# cv2.imshow('gambar',img)
