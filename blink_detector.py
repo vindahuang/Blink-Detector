@@ -101,9 +101,11 @@ def jalan() :
 	print("Filename: ", request.files["image"].filename)
 	image = request.files["image"]
 	image.save(image.filename)
-	img = cv2.imread(image.filename)
-	cv2.imshow('gambar',img)
-	cv2.waitKey(0)
+	im = imageio.imread('imageio:' + image.filename)
+	print(im.shape)
+	# img = cv2.imread(image.filename)
+	# cv2.imshow('gambar',img)
+	# cv2.waitKey(0)
 	os.remove(os.path.join(os.getcwd(), image.filename))
 	# video = request.files["video"]
 	# video.save(video.filename)
