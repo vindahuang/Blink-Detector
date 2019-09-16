@@ -98,69 +98,69 @@ def cnnPreprocess(img):
 
 @app.route('/', methods=['POST'])
 def jalan() :
-	# print("Filename: ", request.files["image"].filename)
-	# try:
-	# 	image = request.files["image"]
-	# except:
-	# 	return "error"
-	# #im = cv2.imread("image")
-	# image.save('abc.jpg')
-	# #im = imageio.imread(image)
-	# im = cv2.imread('abc.jpg')
+	print("Filename: ", request.files["image"].filename)
+	try:
+		image = request.files["image"]
+	except:
+		return "error"
+	#im = cv2.imread("image")
+	image.save('abc.jpg')
+	#im = imageio.imread(image)
+	im = cv2.imread('abc.jpg')
 	# cv2.imshow("asd", im)
-	# # img = cv2.imread(image.filename)
-	# # cv2.imshow('gambar',img)
-	# # cv2.waitKey(0)
+	# img = cv2.imread(image.filename)
+	# cv2.imshow('gambar',img)
+	# cv2.waitKey(0)
 	# os.remove(os.path.join(os.getcwd(), image.filename))
-	video = request.files["video"]
-	video.save(video.filename)
-	camera = cv2.VideoCapture(video.filename)
-	# camera = imageio.get_reader(video.filename)
-	print("Camera: ", camera)
-	model = tf.keras.models.load_model('blinkModel.hdf5')
-	graph = tf.get_default_graph()
-	close_counter = blinks = mem_counter= 0
-	state = ''
-	while (camera.isOpened()):
-	# for frame in camera :
-		ret, frame = camera.read()
-		if frame is None:
-			break
-		eyes = cropEyes(frame)
-		if eyes is None:
-			continue
-		else:
-			left_eye,right_eye = eyes
+	# video = request.files["video"]
+	# video.save(video.filename)
+	# camera = cv2.VideoCapture(video.filename)
+	# # camera = imageio.get_reader(video.filename)
+	# print("Camera: ", camera)
+	# model = tf.keras.models.load_model('blinkModel.hdf5')
+	# graph = tf.get_default_graph()
+	# close_counter = blinks = mem_counter= 0
+	# state = ''
+	# while (camera.isOpened()):
+	# # for frame in camera :
+	# 	ret, frame = camera.read()
+	# 	if frame is None:
+	# 		break
+	# 	eyes = cropEyes(frame)
+	# 	if eyes is None:
+	# 		continue
+	# 	else:
+	# 		left_eye,right_eye = eyes
 			
-		prediction = (model.predict(cnnPreprocess(left_eye)) + model.predict(cnnPreprocess(right_eye)))/2.0
+	# 	prediction = (model.predict(cnnPreprocess(left_eye)) + model.predict(cnnPreprocess(right_eye)))/2.0
 		
-		print(prediction)
+	# 	print(prediction)
 
-		if prediction >= 0.4 :
-			state = 'open'
-			close_counter = 0
-		else:
-			state = 'close'
-			close_counter += 1
+	# 	if prediction >= 0.4 :
+	# 		state = 'open'
+	# 		close_counter = 0
+	# 	else:
+	# 		state = 'close'
+	# 		close_counter += 1
 			
-		if state == 'open' and mem_counter > 1:
-			blinks += 1
-		mem_counter = close_counter 
+	# 	if state == 'open' and mem_counter > 1:
+	# 		blinks += 1
+	# 	mem_counter = close_counter 
 			
-		# cv2.putText(frame, "Blinks: {}".format(blinks), (10, 30),
-		# cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-		# cv2.putText(frame, "State: {}".format(state), (300, 30),
-		# cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+	# 	# cv2.putText(frame, "Blinks: {}".format(blinks), (10, 30),
+	# 	# cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+	# 	# cv2.putText(frame, "State: {}".format(state), (300, 30),
+	# 	# cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 				
 					
-		cv2.imshow('blinks', frame)
+	# 	cv2.imshow('blinks', frame)
 
-		# cv2.waitKey(0)
-		if  blinks > 0 :
-			break
-	camera.release()
-	# print(os.path.join(os.getcwd(), video.filename))
-	os.remove(os.path.join(os.getcwd(), video.filename))
+	# 	# cv2.waitKey(0)
+	# 	if  blinks > 0 :
+	# 		break
+	# camera.release()
+	# # print(os.path.join(os.getcwd(), video.filename))
+	# os.remove(os.path.join(os.getcwd(), video.filename))
 	return 'success'
 				
 	# 			# jalan()
