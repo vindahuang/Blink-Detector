@@ -153,7 +153,7 @@ def jalan() :
 		# cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 				
 					
-		# cv2.imshow('blinks', frame)
+		cv2.imshow('blinks', frame)
 
 		# cv2.waitKey(0)
 		if  blinks > 0 :
