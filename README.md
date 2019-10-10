@@ -1,1 +1,1 @@
-# VindaProject1
+# Blink detector using React Native
