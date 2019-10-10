@@ -1,1 +1,1 @@
-# Blink detector using React Native
+# Blink detector API
