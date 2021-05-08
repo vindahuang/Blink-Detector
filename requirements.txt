@@ -5,7 +5,7 @@ Babel==2.6.0
 cmake==3.13.3
 dlib==19.17.0
 dnspython==1.16.0
-eventlet==0.24.1
+eventlet==0.31.0
 fasteners==0.14.1
 Flask==1.0.3
 gunicorn==19.9.0
