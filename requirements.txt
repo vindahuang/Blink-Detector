@@ -1,7 +1,7 @@
 absl-py==0.7.1
 astor==0.8.0
 astroid==2.2.5
-Babel==2.6.0
+Babel==2.9.1
 cmake==3.13.3
 dlib==19.17.0
 dnspython==1.16.0
